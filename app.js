@@ -1,0 +1,84 @@
+const nav=document.querySelector('.navbar');addEventListener('scroll',()=>nav?.classList.toggle('scrolled',scrollY>18));
+const menuBtn=document.querySelector('.menu-btn'),mobileMenu=document.querySelector('.mobile-menu');menuBtn?.addEventListener('click',()=>{const o=mobileMenu.classList.toggle('open');menuBtn.textContent=o?'✕':'☰';menuBtn.setAttribute('aria-expanded',o)});mobileMenu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileMenu.classList.remove('open');menuBtn.textContent='☰'}));
+const reveals=document.querySelectorAll('.reveal');if('IntersectionObserver'in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.12});reveals.forEach(x=>io.observe(x))}else reveals.forEach(x=>x.classList.add('show'));
+const glow=document.querySelector('.cursor-glow');addEventListener('pointermove',e=>{if(glow){glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'}});
+const shell=document.querySelector('.ai-shell');if(shell){shell.addEventListener('pointermove',e=>{if(innerWidth<981)return;const r=shell.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;shell.style.transform=`rotateY(${x*7}deg) rotateX(${-y*7}deg)`});shell.addEventListener('pointerleave',()=>shell.style.transform='')}
+document.querySelectorAll('.magnetic').forEach(btn=>{const span=btn.querySelector('span')||btn;btn.addEventListener('pointermove',e=>{if(innerWidth<981)return;const r=btn.getBoundingClientRect();span.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.12}px,${(e.clientY-r.top-r.height/2)*.12}px)`});btn.addEventListener('pointerleave',()=>span.style.transform='')});
+const goalData={trust:['Trust-first structure','Clear credibility cues','Proof + reassurance','Confident CTA'],leads:['Conversion path','Focused CTA','Lead capture','Low-friction enquiry'],services:['Service hierarchy','Simple explanations','Comparison blocks','Guided next step'],sell:['Product clarity','Offer hierarchy','Purchase flow','Conversion cues']};
+document.querySelectorAll('.goal-tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.goal-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');const k=t.dataset.goal,d=goalData[k],ui=document.querySelector('.goal-ui');if(ui){ui.style.opacity='.25';setTimeout(()=>{ui.querySelector('h3').textContent=t.querySelector('span').textContent;ui.querySelectorAll('.goal-module').forEach((m,i)=>{m.querySelector('span').textContent=d[i]});ui.style.opacity='1'},150)}}));
+const serviceData={business:['Business Website','A polished multi-section or multi-page website built to explain your company clearly, establish trust and guide visitors toward enquiry.',['Strategy','Structure','Responsive design','Launch']],landing:['Landing Page','A focused conversion page for a campaign, product or service where every section supports one clear action.',['Message','Conversion path','Motion','Lead capture']],commerce:['E-Commerce','A clean, conversion-conscious storefront designed around discovery, confidence and a friction-light purchase journey.',['Catalog','Product UX','Checkout path','Growth']],redesign:['Website Redesign','A strategic rebuild for businesses whose current website no longer represents their quality, positioning or goals.',['Audit','Reframe','Redesign','Relaunch']],custom:['Custom Website','For projects that need something beyond a standard structure — custom interactions, flows, tools or content systems.',['Discovery','System design','Custom build','QA']]};
+document.querySelectorAll('.service-tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.service-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');const d=serviceData[t.dataset.service],p=document.querySelector('.service-panel');if(!p)return;p.querySelector('h2').textContent=d[0];p.querySelector('.service-copy').textContent=d[1];p.querySelectorAll('.flow-step strong').forEach((x,i)=>x.textContent=d[2][i])}));
+const scopeInputs=[...document.querySelectorAll('.scope-builder input')];function updateScope(){if(!scopeInputs.length)return;const vals=scopeInputs.filter(x=>x.checked).map(x=>x.value),premium=vals.some(v=>['multi','commerce','cms','booking','multiLang'].includes(v)),h=document.querySelector('.recommend h3'),p=document.querySelector('.recommend p');if(h)h.textContent=premium?'Signature':'Essential';if(p)p.textContent=premium?'Your selected scope points toward a multi-page or more advanced build. Final pricing depends on content and functionality.':'Your selected scope fits a focused launch. Final scope is confirmed after we review your business and content.'}scopeInputs.forEach(x=>x.addEventListener('change',updateScope));updateScope();
+let step=0;const steps=[...document.querySelectorAll('.wizard-step')],bars=[...document.querySelectorAll('.wizard-progress i')];function showStep(n){step=Math.max(0,Math.min(n,steps.length-1));steps.forEach((s,i)=>s.classList.toggle('active',i===step));bars.forEach((b,i)=>b.classList.toggle('active',i<=step))}document.querySelectorAll('.choice').forEach(c=>c.addEventListener('click',()=>{c.parentElement.querySelectorAll('.choice').forEach(x=>x.classList.remove('active'));c.classList.add('active');c.parentElement.dataset.value=c.dataset.value||c.textContent.trim()}));document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>showStep(step+1)));document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showStep(step-1)));showStep(0);
+
+const sendProject=document.getElementById('sendProject');if(sendProject){sendProject.addEventListener('click',()=>{const active=[...document.querySelectorAll('.wizard .choice.active')].map(x=>x.dataset.value||x.textContent.trim());const fields=[...document.querySelectorAll('.wizard input,.wizard textarea')].map(x=>x.value.trim());const msg=["Hi PixelBuilt, I'd like to discuss a website project.","",`Project: ${active[0]||'-'}`,`Main goal: ${active[1]||'-'}`,`Budget: ${active[2]||'-'}`,`Name: ${fields[0]||'-'}`,`Email: ${fields[1]||'-'}`,`Business / Brand: ${fields[2]||'-'}`,`Country: ${fields[3]||'-'}`,`Notes: ${fields[4]||'-'}`].join('\n');window.open('https://wa.me/60168083598?text='+encodeURIComponent(msg),'_blank','noopener')})}
+
+// V2: scroll progress
+const progressBar=document.querySelector('.scroll-progress');
+function updateProgress(){if(!progressBar)return;const max=document.documentElement.scrollHeight-innerHeight;progressBar.style.width=(max>0?Math.min(100,scrollY/max*100):0)+'%'}
+addEventListener('scroll',updateProgress,{passive:true});addEventListener('resize',updateProgress);updateProgress();
+
+// V2: rotating hero promise + live engine phases. Works without hover.
+const motionWords=[...document.querySelectorAll('.motion-word span')];let motionIndex=0;
+const enginePhases=[['Strategy',25],['Structure',50],['Experience',75],['Ready',100]];let engineIndex=0;
+const engineLabel=document.getElementById('engineLabel'),engineMeter=document.getElementById('engineMeter'),engineShell=document.querySelector('.ai-shell');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function cycleHero(){if(motionWords.length){motionWords[motionIndex].classList.remove('active');motionIndex=(motionIndex+1)%motionWords.length;motionWords[motionIndex].classList.add('active')}if(engineLabel&&engineMeter){engineIndex=(engineIndex+1)%enginePhases.length;engineLabel.textContent=enginePhases[engineIndex][0];engineMeter.style.width=enginePhases[engineIndex][1]+'%';engineShell?.classList.remove('engine-pulse');void engineShell?.offsetWidth;engineShell?.classList.add('engine-pulse')}}
+if(!reduced)setInterval(cycleHero,2600);
+engineShell?.addEventListener('click',cycleHero);
+
+// V2: outcome language switcher
+const signalCopy={professional:['professional.','Credibility','A polished website changes how seriously people take the business behind it. We build visual confidence into the hierarchy, typography, spacing and every important decision.'],clear:['clear.','Clarity','Visitors should understand what you do without working for it. We simplify the message, organise the journey and make the next step obvious.'],valuable:['valuable.','Perceived Value','Better presentation changes perception. We design the digital experience so your pricing, expertise and offer feel considered rather than ordinary.'],memorable:['memorable.','Memorability','Distinctive does not mean noisy. We use controlled motion, strong composition and thoughtful details to create a website people remember.']};
+document.querySelectorAll('.signal-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.signal-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');const d=signalCopy[b.dataset.signal],w=document.getElementById('signalWord'),c=document.getElementById('signalCopy');if(w)w.textContent=d[0];if(c){c.animate?.([{opacity:.25,transform:'translateY(5px)'},{opacity:1,transform:'none'}],{duration:300});c.textContent=d[2]}}));
+
+// V2: tiny pixel trail for fine pointers only
+if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!reduced){let last=0;addEventListener('pointermove',e=>{const now=performance.now();if(now-last<55)return;last=now;const p=document.createElement('i');p.className='pixel-trail';p.style.left=e.clientX+'px';p.style.top=e.clientY+'px';document.body.appendChild(p);setTimeout(()=>p.remove(),720)},{passive:true})}
+
+// V2: tactile tap feedback for mobile interactive controls
+if(matchMedia('(pointer:coarse)').matches){document.querySelectorAll('.btn,.goal-tab,.service-tab,.signal-btn,.choice').forEach(el=>{el.style.position=el.style.position||'relative';el.style.overflow='hidden';el.addEventListener('pointerdown',e=>{const r=el.getBoundingClientRect(),f=document.createElement('i');f.className='tap-flash';f.style.left=(e.clientX-r.left-6)+'px';f.style.top=(e.clientY-r.top-6)+'px';el.appendChild(f);setTimeout(()=>f.remove(),600)})})}
+
+// V3: show the full loader only on the first Home visit in this browser session.
+const homeLoader=document.getElementById('homeLoader');
+if(homeLoader){
+  const seen=sessionStorage.getItem('pixelbuilt-home-seen')==='1';
+  if(seen){homeLoader.remove();}
+  else{
+    sessionStorage.setItem('pixelbuilt-home-seen','1');
+    setTimeout(()=>{homeLoader.classList.add('hide');setTimeout(()=>homeLoader.remove(),520)},1050);
+  }
+}
+
+// V3: calm, useful interactive direction selector. Tap works exactly like hover/click.
+const directionData={
+  leads:['Conversion-focused','Turn interest into enquiries.','A focused message, clear trust signals and an obvious next step help visitors act without confusion.','Start a conversation'],
+  trust:['Trust-first','Look established before you say a word.','Premium hierarchy, confident presentation and clear credibility cues help your business feel dependable from the first screen.','Build confidence'],
+  clarity:['Clarity-first','Make what you do easy to understand.','We organise services and content so visitors can quickly understand the value, find what matters and know what to do next.','Explore services'],
+  sell:['Commerce-ready','Make buying feel simple.','Clear products, reassuring details and a low-friction path to purchase help customers move from interest to checkout with confidence.','Shop with confidence']
+};
+const dirButtons=[...document.querySelectorAll('.direction-option')];
+function setDirection(key){
+  const d=directionData[key]; if(!d)return;
+  dirButtons.forEach(b=>b.classList.toggle('active',b.dataset.direction===key));
+  const panel=document.querySelector('.preview-browser');
+  const k=document.getElementById('directionKicker'),t=document.getElementById('directionTitle'),c=document.getElementById('directionText'),cta=document.getElementById('directionCta');
+  if(panel&&!reduced)panel.animate([{opacity:.65,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:280,easing:'ease-out'});
+  if(k)k.textContent=d[0]; if(t)t.textContent=d[1]; if(c)c.textContent=d[2]; if(cta)cta.textContent=d[3];
+}
+dirButtons.forEach(b=>{b.addEventListener('click',()=>setDirection(b.dataset.direction));b.addEventListener('mouseenter',()=>{if(matchMedia('(hover:hover) and (pointer:fine)').matches)setDirection(b.dataset.direction)})});
+
+// V4: minimal interactive hero — same behavior on mouse and touch.
+const expData={
+  trust:['Built to feel credible','Make a stronger first impression.','A refined website helps visitors understand your value and feel confident taking the next step.','Start a Conversation'],
+  leads:['Built to convert','Turn visits into real enquiries.','Clear messaging, focused calls-to-action and a simple path make it easier for the right customer to contact you.','Get More Enquiries'],
+  sell:['Built to make buying easy','Move customers from interest to checkout.','Clean product presentation and a friction-light journey help customers feel confident enough to buy.','Start Selling']
+};
+const expTabs=[...document.querySelectorAll('.experience-tab')];
+function setExperience(key){const d=expData[key];if(!d)return;expTabs.forEach(x=>x.classList.toggle('active',x.dataset.exp===key));const k=document.getElementById('experienceKicker'),t=document.getElementById('experienceTitle'),p=document.getElementById('experienceText'),c=document.getElementById('experienceCta'),card=document.getElementById('experienceCard');if(card&&!reduced)card.animate([{opacity:.82},{opacity:1}],{duration:220});if(k)k.textContent=d[0];if(t)t.textContent=d[1];if(p)p.textContent=d[2];if(c)c.textContent=d[3]}
+expTabs.forEach(b=>b.addEventListener('click',()=>setExperience(b.dataset.exp)));
+
+// V8 shared polish: current nav marker + touch-safe press response.
+(()=>{
+  const file=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+  document.querySelectorAll('.nav-links a,.mobile-menu a').forEach(a=>{const href=(a.getAttribute('href')||'').split('?')[0].toLowerCase();if(href===file)a.setAttribute('aria-current','page')});
+  if(matchMedia('(pointer:coarse)').matches){document.querySelectorAll('.btn,.v8-btn,.service-tab,.choice').forEach(el=>{el.addEventListener('pointerdown',()=>{el.animate([{transform:'scale(1)'},{transform:'scale(.985)'},{transform:'scale(1)'}],{duration:220})})})}
+})();
