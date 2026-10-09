@@ -51,7 +51,7 @@ a{color:inherit}
 
 /* ---------- PAGE TRANSITION ---------- */
 .transition{position:fixed;inset:0;z-index:80;pointer-events:none;display:grid;grid-template-columns:repeat(12,1fr);opacity:0}
-.transition i{background:var(--ink);transform:scaleY(0);transform-origin:bottom;transition:transform .42s var(--ease2)}
+.transition i{background:#C99B54;transform:scaleY(0);transform-origin:bottom;transition:transform .42s var(--ease2)}
 .transition.go{opacity:1}.transition.go i{transform:scaleY(1)}
 .transition.out i{transform-origin:top;transform:scaleY(0)}
 .transition i:nth-child(2){transition-delay:.025s}.transition i:nth-child(3){transition-delay:.05s}.transition i:nth-child(4){transition-delay:.075s}.transition i:nth-child(5){transition-delay:.1s}.transition i:nth-child(6){transition-delay:.125s}.transition i:nth-child(7){transition-delay:.15s}.transition i:nth-child(8){transition-delay:.175s}.transition i:nth-child(9){transition-delay:.2s}.transition i:nth-child(10){transition-delay:.225s}.transition i:nth-child(11){transition-delay:.25s}.transition i:nth-child(12){transition-delay:.275s}
@@ -167,9 +167,22 @@ a{color:inherit}
   .device.tablet.focus{width:94%;height:67%;}
 }
 
+
+/* PixelBuilt first-entry loader — matching heading gold */
+.pb-loader{position:fixed;inset:0;z-index:9999;background:#0c0c0c;display:grid;place-items:center;transition:opacity .55s ease,visibility .55s ease}
+.pb-loader.is-done{opacity:0;visibility:hidden;pointer-events:none}
+.pb-loader-inner{width:min(280px,75vw);text-align:center}
+.pb-loader-name{color:#C99B54;font-size:clamp(24px,5vw,35px);font-weight:750;letter-spacing:.24em;line-height:1.2}
+.pb-loader-caption{color:#a59a8b;font-size:9px;letter-spacing:.32em;margin-top:12px}
+.pb-loader-track{height:2px;background:#2b251e;margin-top:28px;overflow:hidden}
+.pb-loader-bar{display:block;height:100%;width:0;background:#C99B54;animation:pb-load 1.05s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes pb-load{to{width:100%}}
+@media(prefers-reduced-motion:reduce){.pb-loader-bar{animation:none;width:100%}.pb-loader{transition:none}}
 </style>
 </head>
 <body>
+<div class="pb-loader" id="pbLoader" role="status" aria-label="Loading PixelBuilt"><div class="pb-loader-inner"><div class="pb-loader-name">PIXELBUILT</div><div class="pb-loader-caption">WEB DESIGN STUDIO</div><div class="pb-loader-track"><span class="pb-loader-bar"></span></div></div></div>
+
 <div class="app">
   <header class="header">
     <button class="brand" data-route="home" aria-label="PixelBuilt home">
@@ -342,6 +355,15 @@ a{color:inherit}
 
 <script>
 (() => {
+  const loader=document.getElementById('pbLoader');
+  const homeEntry=!location.hash || location.hash==='#home';
+  const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!homeEntry || sessionStorage.getItem('pbLoaded')==='1'){
+    loader.remove();
+  } else {
+    sessionStorage.setItem('pbLoaded','1');
+    setTimeout(()=>{loader.classList.add('is-done');setTimeout(()=>loader.remove(),600)},reduceMotion?100:1150);
+  }
   const qs=(s,r=document)=>r.querySelector(s), qsa=(s,r=document)=>[...r.querySelectorAll(s)];
   const pages=qsa('.page'), routeBtns=qsa('[data-route]'), transition=qs('#transition');
   transition.innerHTML='<i></i>'.repeat(12);
