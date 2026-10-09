@@ -133,6 +133,31 @@ a{color:inherit}
 }
 @media(max-width:390px){.display{font-size:40px}.build-engine{min-height:300px}.engine-shell{height:290px}.service-demo{height:390px}.package-stage{height:590px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* Real image previews */
+.device{background:#fff;}
+.device-image{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;}
+.device.desktop{width:82%;height:68%;}
+.device.tablet{width:36%;height:64%;}
+.device.mobile{width:22%;height:62%;}
+/* Keep screenshots fully visible within the device frame, rather than cropping their content. */
+.device-image{object-fit:contain;background:#f7f3ed;}
+/* Before / after uses the same image coordinates for an accurate wipe comparison. */
+.compare{width:94%;height:82%;background:#f6f1e9;}
+.before,.after{padding:0;overflow:hidden;}
+.before img,.after img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;}
+.after{overflow:visible;}
+.after img{max-width:none;}
+.compare-handle{pointer-events:none;}
+.compare-handle button{pointer-events:auto;cursor:ew-resize;}
+.site-footer{margin-top:28px;padding:22px 0 26px;border-top:1px solid var(--line);color:#69635c;background:rgba(255,255,255,.12);}
+.footer-inner{width:min(1240px,calc(100% - 48px));margin:auto;display:flex;align-items:center;justify-content:space-between;gap:14px 28px;flex-wrap:wrap;font-size:12px;line-height:1.5;}
+.footer-inner>div{display:grid;gap:3px;}.footer-inner>div strong{color:var(--ink);letter-spacing:.15em;font-size:11px;}.footer-inner>div span{font-size:10px;}
+.footer-inner p{margin:0;}.footer-inner p strong{font-weight:650;color:inherit;}.footer-inner small{font-size:11px;}
+.services .site-footer,.contact .site-footer{border-top-color:var(--line-dark);background:#0c0c0c;color:#a7a7a7;}
+.services .footer-inner>div strong,.contact .footer-inner>div strong{color:white;}
+@media(max-width:720px){.footer-inner{width:calc(100% - 30px);align-items:flex-start;flex-direction:column;gap:8px}.site-footer{margin-top:18px;padding:20px 0}.device.desktop{width:86%;height:66%}.device.tablet{width:40%;height:62%}.device.mobile{width:26%;height:60%}}
+
 </style>
 </head>
 <body>
@@ -179,22 +204,22 @@ a{color:inherit}
             </div>
             <div class="canvas-zone">
               <div class="device desktop focus" data-device-panel="desktop">
-                <div class="mock-nav"><b class="mock-logo">NORTH / CO</b><div class="mock-links"><span>About</span><span>Services</span><span>Contact</span></div></div>
-                <div class="mock-hero"><div class="mock-copy"><h4>Built for the next move.</h4><p>A clear digital presence for a business ready to look as established online as it is offline.</p><span class="mock-cta">Start a conversation →</span></div><div class="mock-visual"></div></div>
+                 <img class="device-image" src="assets/desktop.png" alt="North and Co website desktop layout" loading="eager">
               </div>
               <div class="device tablet" data-device-panel="tablet">
-                <div class="mock-nav"><b class="mock-logo">NORTH / CO</b><div class="mock-links"><span>Menu</span></div></div>
-                <div class="mock-hero"><div class="mock-copy"><h4>Built for the next move.</h4><p>Clear structure. Strong first impression.</p><span class="mock-cta">Start →</span></div><div class="mock-visual"></div></div>
+                 <img class="device-image" src="assets/tablet.png" alt="North and Co website tablet layout" loading="eager">
               </div>
               <div class="device mobile" data-device-panel="mobile">
-                <div class="mock-nav"><b class="mock-logo">N / C</b><div class="mock-links"><span>☰</span></div></div>
-                <div class="mock-hero"><div class="mock-copy"><h4>Built for the next move.</h4><p>Clear. Responsive. Focused.</p><span class="mock-cta">Start →</span></div><div class="mock-visual"></div></div>
+                 <img class="device-image" src="assets/mobile.png" alt="North and Co website mobile layout" loading="eager">
               </div>
             </div>
             <div class="engine-caption"><i></i> Layout adapts in real time</div>
           </div>
         </div>
       </div>
+      <footer class="site-footer">
+  <div class="footer-inner"><div><strong>PIXELBUILT</strong><span>Web Design Studio</span></div><p>PixelBuilt is operated by <strong>Plannique Design Co.</strong></p><small>© <span class="copyright-year">2026</span> PixelBuilt. All rights reserved.</small></div>
+</footer>
     </section>
 
     <!-- SERVICES -->
@@ -225,7 +250,11 @@ a{color:inherit}
             </div>
 
             <div class="demo-view redesign-site" data-demo="2">
-              <div class="compare" id="compare"><div class="before"><h3>Before.</h3><p>Busy hierarchy, weak direction and an outdated first impression.</p><div class="oldbox"></div></div><div class="after" id="afterPane"><h3>After.</h3><p>Sharper positioning, cleaner hierarchy and a more confident digital presence.</p><div class="newgrid"><i></i><i></i></div></div><div class="compare-handle" id="compareHandle"><button type="button" aria-label="Move comparison">↔</button></div></div>
+              <div class="compare" id="compare" role="group" aria-label="Website redesign before and after comparison">
+                 <div class="before"><img src="assets/before.png" alt="Website before redesign" loading="lazy"></div>
+                 <div class="after" id="afterPane"><img src="assets/after.png" alt="Website after redesign" loading="lazy"></div>
+                 <div class="compare-handle" id="compareHandle"><button type="button" aria-label="Drag to compare before and after" title="Drag to compare">↔</button></div>
+               </div>
             </div>
 
             <div class="demo-view shop-site" data-demo="3">
@@ -237,6 +266,9 @@ a{color:inherit}
           </div>
         </div>
       </div>
+      <footer class="site-footer">
+  <div class="footer-inner"><div><strong>PIXELBUILT</strong><span>Web Design Studio</span></div><p>PixelBuilt is operated by <strong>Plannique Design Co.</strong></p><small>© <span class="copyright-year">2026</span> PixelBuilt. All rights reserved.</small></div>
+</footer>
     </section>
 
     <!-- PROCESS -->
@@ -259,6 +291,9 @@ a{color:inherit}
           <div class="process-meter"><i id="processMeter"></i></div>
         </div>
       </div>
+      <footer class="site-footer">
+  <div class="footer-inner"><div><strong>PIXELBUILT</strong><span>Web Design Studio</span></div><p>PixelBuilt is operated by <strong>Plannique Design Co.</strong></p><small>© <span class="copyright-year">2026</span> PixelBuilt. All rights reserved.</small></div>
+</footer>
     </section>
 
     <!-- PRICING -->
@@ -275,6 +310,9 @@ a{color:inherit}
           <article class="package-card"><div class="pkg-top"><div class="pkg-name">SIGNATURE</div><div>Complete presence</div></div><div><div class="pkg-price">$1,499 <small>USD</small></div><p class="pkg-desc">For businesses that need more room to explain, showcase and convert.</p></div><ul class="pkg-list"><li>Up to 7 page views</li><li>Premium visual direction</li><li>Loader / intro experience</li><li>Gallery / richer sections</li><li>Enhanced enquiry integration</li><li>Bilingual option available</li><li>3 revision rounds</li><li>3 months minor support</li></ul><div class="pkg-actions"><span>Best for a complete business website.</span><button class="cta" data-route="contact" data-package-choice="Signature — $1,499">Start Signature <i>↗</i></button></div></article>
         </div>
       </div>
+      <footer class="site-footer">
+  <div class="footer-inner"><div><strong>PIXELBUILT</strong><span>Web Design Studio</span></div><p>PixelBuilt is operated by <strong>Plannique Design Co.</strong></p><small>© <span class="copyright-year">2026</span> PixelBuilt. All rights reserved.</small></div>
+</footer>
     </section>
 
     <!-- CONTACT -->
@@ -283,6 +321,9 @@ a{color:inherit}
         <div class="contact-intro"><div class="kicker">Start a project / 04</div><h2 class="display">Tell us what<br><span>you're building.</span></h2><p class="lead">A short guided enquiry. No complicated briefing document.</p></div>
         <form class="wizard" id="wizard"><div class="wizard-top"><span>Project enquiry</span><span id="wizardCount">01 / 03</span></div><div class="wizard-step active" data-wizard="0"><h3>What do you need?</h3><div class="choices" id="needChoices"><button type="button" class="choice">Business website</button><button type="button" class="choice">Landing page</button><button type="button" class="choice">Website redesign</button><button type="button" class="choice">E-commerce</button></div></div><div class="wizard-step" data-wizard="1"><h3>Which starting point fits?</h3><div class="choices" id="packageChoices"><button type="button" class="choice">Essential — $599</button><button type="button" class="choice">Signature — $1,499</button><button type="button" class="choice">Custom scope</button><button type="button" class="choice">Not sure yet</button></div></div><div class="wizard-step" data-wizard="2"><h3>Where should we reply?</h3><div class="field"><label>Your name</label><input id="clientName" required placeholder="Name"></div><div class="field"><label>Business / brand</label><input id="clientBusiness" placeholder="Business name"></div><div class="field"><label>Project note</label><textarea id="clientNote" placeholder="What should the website help your business achieve?"></textarea></div></div><div class="wizard-actions"><button type="button" id="wizardBack">Back</button><button type="button" class="primary" id="wizardNext">Continue →</button></div></form>
       </div>
+      <footer class="site-footer">
+  <div class="footer-inner"><div><strong>PIXELBUILT</strong><span>Web Design Studio</span></div><p>PixelBuilt is operated by <strong>Plannique Design Co.</strong></p><small>© <span class="copyright-year">2026</span> PixelBuilt. All rights reserved.</small></div>
+</footer>
     </section>
   </main>
 </div>
@@ -314,6 +355,8 @@ a{color:inherit}
   routeBtns.forEach(b=>b.addEventListener('click',()=>setRoute(b.dataset.route)));
   addEventListener('hashchange',()=>setRoute(location.hash.replace('#','')||'home',true));
   setRoute(location.hash.replace('#','')||'home',true);
+
+  qsa(".copyright-year").forEach(el=>el.textContent=String(new Date().getFullYear()));
 
   // mobile menu
   const menuBtn=qs('#menuBtn'), mobileMenu=qs('#mobileMenu');
@@ -347,8 +390,9 @@ a{color:inherit}
 
   // redesign comparison
   const compare=qs('#compare'),afterPane=qs('#afterPane'),handle=qs('#compareHandle'); let dragging=false;
-  function setCompare(clientX){const r=compare.getBoundingClientRect();const p=Math.max(8,Math.min(92,(clientX-r.left)/r.width*100));afterPane.style.clipPath=`inset(0 0 0 ${p}%)`;handle.style.left=p+'%'}
+  function setCompare(clientX){const r=compare.getBoundingClientRect();const p=Math.max(2,Math.min(98,(clientX-r.left)/r.width*100));afterPane.style.clipPath=`inset(0 0 0 ${p}%)`;handle.style.left=p+'%'}
   compare.addEventListener('pointerdown',e=>{dragging=true;compare.setPointerCapture(e.pointerId);setCompare(e.clientX)});compare.addEventListener('pointermove',e=>{if(dragging)setCompare(e.clientX)});compare.addEventListener('pointerup',()=>dragging=false);compare.addEventListener('pointercancel',()=>dragging=false);
+   qs('#compareHandle button').addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();const p=parseFloat(handle.style.left)||50;const next=Math.max(2,Math.min(98,p+(e.key==='ArrowRight'?5:-5)));afterPane.style.clipPath=`inset(0 0 0 ${next}%)`;handle.style.left=next+'%'}});
 
   // commerce
   let bag=0;const bagCount=qs('#bagCount'),cartToast=qs('#cartToast'),productObject=qs('#productObject');
